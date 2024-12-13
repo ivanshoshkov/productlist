@@ -1,0 +1,106 @@
+{
+  "products": [
+    {
+      "name": "How to name a product: 11 tips for product naming success",
+      "price": 1223,
+      "currency": "ASD",
+      "id": "9e5b"
+    },
+    {
+      "name": "Ivan Shoshkov",
+      "price": 222,
+      "currency": "USD",
+      "id": "3f76"
+    },
+    {
+      "name": "asdasd",
+      "price": 214,
+      "currency": "asd",
+      "id": "a8c3"
+    },
+    {
+      "name": "Ivan Shoshkov",
+      "price": 1231232,
+      "currency": "13123",
+      "id": "a751"
+    },
+    {
+      "name": "asdasd",
+      "price": 222,
+      "currency": "ASD",
+      "id": "ee5e"
+    },
+    {
+      "id": "ff3a",
+      "name": "Ivan Shoshkov",
+      "price": 213,
+      "currency": "asda"
+    },
+    {
+      "id": "764c",
+      "name": "Title",
+      "price": 231,
+      "currency": "ASR"
+    },
+    {
+      "id": "845e",
+      "name": "Images",
+      "price": 4,
+      "currency": "ASD"
+    },
+    {
+      "id": "7bda",
+      "name": "Cat",
+      "price": 69,
+      "currency": "USD"
+    },
+    {
+      "name": "Sad",
+      "price": 26,
+      "currency": "FAS",
+      "id": "57c0"
+    },
+    {
+      "id": "079f",
+      "name": "Banana",
+      "price": 32,
+      "currency": "USD"
+    },
+    {
+      "name": "asdasdasd",
+      "price": 2131,
+      "currency": "asd",
+      "id": "5cfb"
+    },
+    {
+      "name": "asdasd",
+      "price": 23,
+      "currency": "asd",
+      "id": "302a"
+    },
+    {
+      "id": "6166",
+      "name": "Pipi",
+      "price": 45,
+      "currency": "USD"
+    }
+  ],
+  "permissions": [
+    {
+      "id": "1",
+      "name": "CREATE"
+    },
+    {
+      "id": "2",
+      "name": "READ"
+    },
+    {
+      "id": "3",
+      "name": "UPDATE"
+    },
+    {
+      "id": "4",
+      "name": "DELETE"
+    }
+  ]
+}

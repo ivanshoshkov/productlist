@@ -1,0 +1,29 @@
+.button,
+.button-primary {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  margin-right: 10px;
+  padding: 6px 22px;
+  border-radius: 4px;
+  color: rgb(65, 65, 65);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.button-primary {
+  padding: 12px 32px;
+  background-color: #0da23a;
+  color: white;
+
+  &:hover {
+    background-color: #0fc144;
+  }
+}
+
+.disabled {
+  background-color: #e0e0e0;
+  pointer-events: none;
+}

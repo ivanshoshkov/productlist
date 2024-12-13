@@ -1,0 +1,50 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td,
+    th {
+        padding: 12px;
+
+        &:last-child {
+            text-align: center;
+        }
+    }
+}
+
+tr {
+    &:not(:last-child) {
+        border-bottom: 1px solid #edeff1;
+    }
+}
+
+thead {
+    tr {
+        border-bottom: 1px solid #edeff1;
+
+        th {
+            text-align: start;
+        }
+    }
+}
+
+tbody {
+    tr {
+        border-spacing: 0;
+
+        &:hover {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.23);
+        }
+
+        &:last-child:hover {
+            border-radius: 0 0 24px 24px;
+        }
+
+        td {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}

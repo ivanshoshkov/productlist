@@ -1,7 +1,7 @@
-import Button from "../Button/Button";
+import { useGetPermissions } from "../../hooks/useGetPermissions";
 import { DELETE, UPDATE } from "../../constants";
 import { Product } from "../../commonTypes";
-import { useGetPermissions } from "../../hooks/useGetPermissions";
+import Button from "../Button/Button";
 
 type ButtonGroupProps = {
   product: Product;
@@ -11,12 +11,12 @@ type ButtonGroupProps = {
 };
 
 const ButtonGroup = ({
-  product,
   onDelete,
-  onShow,
   onSelect,
+  onShow,
+  product,
 }: ButtonGroupProps) => {
-  const { permissions, error } = useGetPermissions();
+  const { error, permissions } = useGetPermissions();
 
   const onOpenModal = () => {
     onSelect(product);
@@ -29,14 +29,14 @@ const ButtonGroup = ({
   ) : (
     <div>
       {permissions && permissions.has(UPDATE) && (
-        <Button text="Update" onClick={onOpenModal}>
+        <Button onClick={onOpenModal} text="Update">
           <img src="./icons/edit.svg" alt="" />
         </Button>
       )}
       {permissions && permissions.has(DELETE) && (
         <Button
-          text="Delete"
           onClick={() => onDelete(product.id!)}
+          text="Delete"
           confirmAction
         >
           <img src="./icons/delete.svg" alt="" />

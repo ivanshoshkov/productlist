@@ -1,16 +1,17 @@
 import { useState } from "react";
+
 import { useGetPermissions } from "../../hooks/useGetPermissions";
+import ModalForm from "../Modal/ModalForm/ModalForm";
+import styles from "./ProductCreate.module.scss";
+import { CREATE } from "../../constants";
 import Button from "../Button/Button";
 import Toast from "../Toast/Toast";
-import ModalForm from "../Modal/ModalForm/ModalForm";
-import { CREATE } from "../../constants";
-import styles from "./ProductCreate.module.scss";
 
 const ProductCreate = () => {
   const [showForm, setShowForm] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { permissions, error } = useGetPermissions();
+  const { error, permissions } = useGetPermissions();
 
   const onShowForm = () => {
     setShowForm((prev) => !prev);
@@ -25,20 +26,20 @@ const ProductCreate = () => {
   ) : (
     <div className={styles["product-create"]}>
       {permissions && permissions.has(CREATE) && (
-        <Button onClick={onShowForm} text={getButtonLabel()} primary />
+        <Button text={getButtonLabel()} onClick={onShowForm} primary />
       )}
 
       {showForm && (
         <ModalForm
-          showForm={showForm}
-          onShowForm={onShowForm}
-          setShowToast={setShowToast}
           setToastMessage={setToastMessage}
+          setShowToast={setShowToast}
+          onShowForm={onShowForm}
+          showForm={showForm}
         />
       )}
 
       {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+        <Toast onClose={() => setShowToast(false)} message={toastMessage} />
       )}
     </div>
   );

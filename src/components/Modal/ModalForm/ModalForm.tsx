@@ -1,6 +1,6 @@
-import Modal from "../Modal";
-import Form from "../../Form/Form";
 import { Product } from "../../../commonTypes";
+import Form from "../../Form/Form";
+import Modal from "../Modal";
 
 type ModalFormProps = {
   showForm: boolean;
@@ -12,18 +12,20 @@ type ModalFormProps = {
 };
 
 const ModalForm = ({
-  showForm,
   onShowForm,
+  product,
   setShowToast,
   setToastMessage,
-  product,
+  showForm,
   update,
 }: ModalFormProps) => {
+  
+  const getFormTitle = () =>
+    update ? "Update product" : "Create a new product";
+
   return (
-    <Modal title={"Create a new product"} show={showForm} onClose={onShowForm}>
+    <Modal title={getFormTitle()} onClose={onShowForm} show={showForm}>
       <Form
-        update={update}
-        product={product}
         onClose={(message) => {
           onShowForm();
           if (message) {
@@ -31,6 +33,8 @@ const ModalForm = ({
             setToastMessage(message);
           }
         }}
+        product={product}
+        update={update}
       />
     </Modal>
   );

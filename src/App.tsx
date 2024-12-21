@@ -1,5 +1,5 @@
-import ProductList from "./components/ProductList/ProductList";
 import ProductCreate from "./components/ProductCreate/ProductCreate";
+import ProductList from "./components/ProductList/ProductList";
 import Wrapper from "./components/Wrapper/Wrapper";
 import "./App.css";
 

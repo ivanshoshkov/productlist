@@ -1,4 +1,5 @@
 import { MouseEvent, ReactNode, useState } from "react";
+
 import styles from "./Button.module.scss";
 import Modal from "../Modal/Modal";
 
@@ -12,12 +13,12 @@ type ButtonProps = {
 };
 
 const Button = ({
-  text,
-  disabled,
-  primary,
-  confirmAction,
   children,
+  confirmAction,
+  disabled,
   onClick,
+  primary,
+  text,
 }: ButtonProps) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -41,20 +42,20 @@ const Button = ({
   return (
     <>
       <button
-        disabled={disabled}
         className={generateButtonClasses()}
         onClick={onButtonClick}
+        disabled={disabled}
       >
         {children ?? text}
       </button>
 
       {confirmAction && (
-        <Modal title={"Are you sure?"} show={showModal} onClose={onModalClose}>
-          <button onClick={onClick} className={styles["button"]}>
+        <Modal title={"Are you sure?"} onClose={onModalClose} show={showModal}>
+          <button className={styles["button"]} onClick={onClick}>
             Yes
           </button>
 
-          <button onClick={onModalClose} className={styles["button"]}>
+          <button className={styles["button"]} onClick={onModalClose}>
             No
           </button>
         </Modal>

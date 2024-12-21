@@ -1,4 +1,4 @@
-import { Product } from "../commonTypes";
+import { Product, ProductBodyProps } from "../commonTypes";
 import { BASE_URL } from "../constants";
 
 export const getProducts = async () => {
@@ -24,12 +24,12 @@ export const deleteProduct = async (id: string) => {
   }
 };
 
-export const createProduct = async (product: Product) => {
+export const createProduct = async (product: ProductBodyProps) => {
   try {
     const response = await fetch(`${BASE_URL}/products`, {
-      method: "POST",
-
       body: JSON.stringify(product),
+
+      method: "POST",
     });
 
     return response.json();
@@ -42,8 +42,8 @@ export const createProduct = async (product: Product) => {
 export const updateProduct = async (product: Product) => {
   try {
     const response = await fetch(`${BASE_URL}/products/${product.id}`, {
-      method: "PUT",
       body: JSON.stringify(product),
+      method: "PUT",
     });
 
     return response.json();

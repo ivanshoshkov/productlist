@@ -6,18 +6,23 @@ import {
   useCallback,
   useState,
 } from "react";
-import Input from "../Input/Input";
-import { createProduct, updateProduct } from "../../services/productServices";
 import { useMutation, useQueryClient } from "react-query";
+
+import { createProduct, updateProduct } from "../../services/productServices";
+import { Product, ProductBodyProps } from "../../commonTypes";
+import { productMessages } from "../../constants";
 import Button from "../Button/Button";
-import { Product } from "../../commonTypes";
+import Input from "../Input/Input";
 
 type FormProps = {
   update?: boolean;
   product?: Product;
   onClose?: (message: string) => void;
 };
-const Form = ({ product, update, onClose }: FormProps) => {
+
+type ProductMutationPayload = Product | ProductBodyProps;
+
+const Form = ({ onClose, product, update }: FormProps) => {
   const [name, setName] = useState<string>(product?.name || "");
   const [price, setPrice] = useState<number | undefined>(
     product?.price || undefined
@@ -27,8 +32,12 @@ const Form = ({ product, update, onClose }: FormProps) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: (product: Product) =>
-      update ? updateProduct(product) : createProduct(product),
+    mutationFn: (product: ProductMutationPayload) => {
+      if ("id" in product) {
+        return updateProduct(product);
+      }
+      return createProduct(product);
+    },
     mutationKey: ["addProduct"],
     onSuccess: (newProduct) => {
       if (update) {
@@ -42,19 +51,21 @@ const Form = ({ product, update, onClose }: FormProps) => {
     },
   });
 
-  const onCreate = useCallback((event: FormEvent, product: Product) => {
-    event.preventDefault();
+  const onCreate = useCallback(
+    (event: FormEvent, product: ProductMutationPayload) => {
+      event.preventDefault();
 
-    try {
-      mutate(product);
-      onFormReset();
-      onClose &&
-        onClose(`Product ${update ? "updated" : "created"} successfully`);
-    } catch (error) {
-      console.log(error);
-      onClose && onClose("Failed to create product");
-    }
-  }, []);
+      try {
+        mutate(product);
+        onFormReset();
+        onClose && onClose(productMessages[update ? "update" : "create"]);
+      } catch (error) {
+        console.log(error);
+        onClose && onClose("Failed to create product");
+      }
+    },
+    []
+  );
 
   const onFormReset = useCallback(() => {
     setName("");
@@ -86,63 +97,61 @@ const Form = ({ product, update, onClose }: FormProps) => {
   const validateFields = () =>
     Boolean(name && (price || price === 0) && currency);
 
-  const determineChanges = () => {
-    if (
-      product?.currency !== currency ||
-      product?.name !== name ||
-      product?.price !== price
-    ) {
-      return true;
-    }
-
-    return false;
-  };
+  const determineChanges = () =>
+    product?.currency !== currency ||
+    product?.name !== name ||
+    product?.price !== price;
 
   return (
     <form
       onSubmit={(event) =>
         onCreate(event, {
+          currency,
           name,
           price,
-          currency,
         })
       }
     >
       <Input
-        label="Name"
-        name="name"
-        type="text"
-        value={name}
         placeholder="Enter product name"
         onChange={onNameChange}
+        value={name}
+        label="Name"
+        type="text"
+        name="name"
       />
 
       <Input
-        label="Price"
-        name="price"
-        type="number"
-        value={price}
         placeholder="Enter product price"
         onChange={onPriceChange}
+        value={price}
+        type="number"
+        label="Price"
+        name="price"
       />
 
       <Input
+        placeholder="Enter currency"
+        onChange={onCurrencyChange}
+        value={currency}
         label="Currency"
         name="currency"
         type="text"
-        value={currency}
-        placeholder="Enter currency"
-        onChange={onCurrencyChange}
       />
 
       <div>
         <Button
-          primary
+          onClick={(event: MouseEvent) =>
+            onCreate(event, {
+              currency,
+              name,
+              price,
+              ...(update && product && { id: product.id }),
+            })
+          }
           disabled={!validateFields() || !determineChanges()}
           text={update ? "Update" : "Create"}
-          onClick={(event: MouseEvent) =>
-            onCreate(event, { name, price, currency, id: product?.id })
-          }
+          primary
         />
       </div>
     </form>

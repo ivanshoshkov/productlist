@@ -1,13 +1,19 @@
-import { memo, useState } from "react";
-import { deleteProduct, getProducts } from "../../services/productServices";
 import { useQuery, useQueryClient } from "react-query";
+import { memo, useState } from "react";
+
+import {
+  PERMISSION_ERROR_MESSAGE,
+  productMessages,
+  READ,
+} from "../../constants";
+import { deleteProduct, getProducts } from "../../services/productServices";
 import { useGetPermissions } from "../../hooks/useGetPermissions";
-import Toast from "../Toast/Toast";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import ModalForm from "../Modal/ModalForm/ModalForm";
-import Table from "../Table/Table";
 import styles from "./ProductList.module.scss";
-import { READ } from "../../constants";
 import { Product } from "../../commonTypes";
+import Toast from "../Toast/Toast";
+import Table from "../Table/Table";
 
 const ProductList = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,13 +25,20 @@ const ProductList = () => {
 
   const { permissions } = useGetPermissions();
   const isReadPermission = permissions && permissions.has(READ);
+
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["products"],
+  const { data, error, isLoading } = useQuery({
     queryFn: getProducts,
+    queryKey: ["products"],
     refetchOnWindowFocus: false,
   });
+
+  if (!isReadPermission) {
+    return isLoading ? null : (
+      <ErrorMessage message={PERMISSION_ERROR_MESSAGE} />
+    );
+  }
 
   const onDelete = async (id: string) => {
     try {
@@ -35,7 +48,7 @@ const ProductList = () => {
 
       setShowToast(true);
 
-      setToastMessage("Product deleted successfully");
+      setToastMessage(productMessages.delete);
     } catch (error) {
       console.error("Failed to delete product", error);
     }
@@ -45,7 +58,7 @@ const ProductList = () => {
     setShowModal(false);
   };
 
-  return isReadPermission ? (
+  return (
     <div className={styles["product-list"]}>
       {isLoading && <p>Loading...</p>}
 
@@ -53,21 +66,21 @@ const ProductList = () => {
 
       {data && data.length > 0 && (
         <Table
-          data={data}
-          onDelete={onDelete}
-          onShow={setShowModal}
           onSelect={setSelectedProduct}
           permissions={permissions}
+          onShow={setShowModal}
+          onDelete={onDelete}
+          data={data}
         />
       )}
 
       {showModal && (
         <ModalForm
-          showForm={showModal}
-          onShowForm={onModalClose}
-          setShowToast={setShowToast}
           setToastMessage={setToastMessage}
+          setShowToast={setShowToast}
           product={selectedProduct}
+          onShowForm={onModalClose}
+          showForm={showModal}
           update
         />
       )}
@@ -75,13 +88,6 @@ const ProductList = () => {
       {showToast && (
         <Toast onClose={() => setShowToast(false)} message={toastMessage} />
       )}
-    </div>
-  ) : (
-    <div>
-      <p className="error-message">
-        You either dont have permissions to see this page or something went
-        wrong while requesting products.
-      </p>
     </div>
   );
 };

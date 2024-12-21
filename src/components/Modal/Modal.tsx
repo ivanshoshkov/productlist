@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import styles from "./Modal.module.scss";
 import Button from "../Button/Button";
 
@@ -9,13 +10,13 @@ type ModalProps = {
   onClose?: () => void;
 };
 
-const Modal = ({ onClose, title, show, children }: ModalProps) => {
+const Modal = ({ children, onClose, show, title }: ModalProps) => {
   return show ? (
     <div className={styles["modal"]}>
       <div className={styles["modal-content"]}>
         <div className={styles["modal-header"]}>
           <h2>{title}</h2>
-          <Button text="Cancel" onClick={onClose} />
+          <Button onClick={onClose} text="Cancel" />
         </div>
         {children}
       </div>

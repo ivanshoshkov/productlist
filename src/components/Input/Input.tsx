@@ -1,4 +1,5 @@
 import { ChangeEvent, memo } from "react";
+
 import styles from "./Input.module.scss";
 
 type InputProps = {
@@ -13,21 +14,21 @@ type InputProps = {
 const Input = ({
   label,
   name,
+  onChange,
+  placeholder,
   type,
   value,
-  placeholder,
-  onChange,
 }: InputProps): JSX.Element => {
   return (
     <div className={styles["input"]}>
       <label htmlFor={name}>{label}</label>
       <input
-        type={type}
-        id={name}
-        name={name}
+        placeholder={placeholder}
         value={value ?? ""}
         onChange={onChange}
-        placeholder={placeholder}
+        type={type}
+        name={name}
+        id={name}
       />
     </div>
   );

@@ -1,16 +1,17 @@
 import { useQuery } from "react-query";
+
 import { getPermissions } from "../services/permissionsServices";
 
 export const useGetPermissions = () => {
   const {
     data: permissions,
-    isLoading,
     error,
+    isLoading,
   } = useQuery({
-    queryKey: ["permissions"],
     queryFn: getPermissions,
+    queryKey: ["permissions"],
     refetchOnWindowFocus: false,
   });
 
-  return { permissions, isLoading, error };
+  return { error, isLoading, permissions };
 };

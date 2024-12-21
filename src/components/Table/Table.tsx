@@ -10,7 +10,7 @@ type DataProps = {
   permissions: Set<unknown>;
 };
 
-const Table = ({ data, onDelete, onShow, onSelect }: DataProps) => {
+const Table = ({ data, onDelete, onSelect, onShow }: DataProps) => {
   return (
     <table className={styles["table"]}>
       <thead>
@@ -22,17 +22,17 @@ const Table = ({ data, onDelete, onShow, onSelect }: DataProps) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(({ name, price, currency, id }: Product) => (
+        {data.map(({ currency, id, name, price }: Product) => (
           <tr key={id}>
             <td>{name}</td>
             <td>{price}</td>
             <td>{currency}</td>
             <td>
               <ButtonGroup
-                product={{ name, price, currency, id }}
+                product={{ currency, id, name, price }}
+                onSelect={onSelect}
                 onDelete={onDelete}
                 onShow={onShow}
-                onSelect={onSelect}
               />
             </td>
           </tr>
